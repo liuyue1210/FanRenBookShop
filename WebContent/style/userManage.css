@@ -1,0 +1,108 @@
+@charset "utf-8";
+.top {
+	border-bottom:3px solid #ff2832;
+}
+.tTop {
+	width:100%;
+	height:34px;
+	background:#f9f9f9;
+	border-bottom:1px solid #f2f2f2;	
+}
+.tTop div,.medium,.tBottom {
+	margin:0 auto;
+}
+.tTop div {
+	line-height:34px;
+	color:#646464;
+	font-size:12px;
+	font-family:'Hiragino Sans GB',"simsun","Arial";
+}
+.tTop .tTop1 {
+	float:left;
+	text-align: left;
+	margin-left:10px;
+}
+.tTop .tTop2 {
+	float:right;
+	text-align:right;
+	margin-right:10px;
+}
+.tTop a {
+	text-decoration:none;
+	color:#646464;
+}
+.tTop a:hover,.tTop .on {
+	color:red;
+}
+.tBottom {
+	margin-top:15px;
+	height:90px;
+}
+.tBottom div {
+	width:280px;
+	height:90px;
+	background: url(../image/logo3.jpg);
+}
+.medium {
+	overflow:auto;
+	margin-top:20px;
+}
+.medium a {
+	text-decoration:none;
+}
+.medium .left {
+	width:200px;
+	float:left;
+}
+.medium .left li {
+	margin:35px 5px;
+}
+.medium .left li a {
+	display:block;
+	width:140px;
+	height:50px;
+	background: url(../image/candyButton1.png) no-repeat center center;
+	color:#fff;
+	text-align:center;
+	line-height:45px;
+}
+.medium .left li .on {
+	width:160px;
+	background: url(../image/candyButton2.png) no-repeat center center;
+}
+.medium .right {
+	width:750px;
+	float: left;
+	border:2px solid #ccc;
+	padding:10px;
+	border-radius:2px;
+}
+
+.bottom {
+	clear:both;
+	margin-top:10px;
+	width:100%;
+	text-align:center;
+	height:34px;
+	background:#f9f9f9;
+	color:#646464;
+	font-size:12px;
+	font-family:'Hiragino Sans GB',"simsun","Arial";
+	line-height:34px;
+	border-top:2px solid #ff2832;
+}
+.button {
+	display:inline-block;
+	float:right;
+	margin-right:20px;
+	padding:5px 10px;
+	border:1px solid #ccc;
+	color:#000;
+	border-radius:3px;
+}
+.button:hover {
+	border:1px solid #ccc;
+	background:#ccc;
+	color:#fff;
+	border-radius:3px;
+}

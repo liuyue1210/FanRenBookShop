@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="strutsBean" extends="struts-default" namespace="/">
+		<action name="login" class="userAction" method="login">
+			<result name="success" type="redirectAction">showMainAction</result>
+			<result name="fail">/login.jsp</result>
+		</action>
+		<action name="register" class="com.ssh.shop.action.UserAction"
+			method="register">
+			<result name="success">/login.jsp</result>
+			<result name="fail">/register.jsp</result>
+		</action>
+		<action name="logout" class="com.ssh.shop.action.UserAction"
+			method="logout">
+			<result name="success">/fmain.jsp</result>
+		</action>
+		<action name="showMainAction" class="com.ssh.shop.action.ShowMainAction"
+			method="execute">
+			<result name="success">/fmain.jsp</result>
+			<result name="fail">/login.jsp</result>
+		</action>
+		<action name="searchBookAction" class="com.ssh.shop.action.SearchBookAction"
+			method="execute">
+			<result name="success">/fsearch.jsp</result>
+			<result name="fail">/fmain.jsp</result>
+		</action>
+		<action name="sortBookAction" class="com.ssh.shop.action.SearchBookAction"
+			method="sortBook">
+			<result name="success">/fsearch.jsp</result>
+			<result name="fail">/fmain.jsp</result>
+		</action>
+
+		<action name="searchVoBAction" class="com.ssh.shop.action.SearchVoBAction"
+			method="execute">
+			<result name="success">/fsearch.jsp</result>
+			<result name="fail">/fmain.jsp</result>
+		</action>
+
+		<action name="findBookDetailAction" class="com.ssh.shop.action.SearchBookAction"
+			method="findBookDetail">
+			<result name="success">/fbookDetail.jsp</result>
+			<result name="fail">/fmain.jsp</result>
+		</action>
+
+		<!-- 郑佳颖加 -->
+		<!-- 修改用户信息 -->
+		<action name="userupdate" class="userupdate" method="userupdate">
+			<result name="success">/fpersonInfo.jsp</result>
+			<result name="fail">/404.jsp</result>
+		</action>
+		<!-- 修改密码 -->
+		<action name="changePassword" class="com.ssh.shop.action.UserInfoAction"
+			method="changePassword">
+			<result name="success">/login.jsp</result>
+			<result name="fail">/fpasswordChange.jsp</result>
+		</action>
+		<!-- 充值余额 -->
+		<action name="chargeBalance" class="com.ssh.shop.action.UserInfoAction"
+			method="chargeBalance">
+			<result name="success">/fpersonInfo.jsp</result>
+			<result name="fail">/404.jsp</result>
+		</action>
+		<!-- 书架显示 -->
+		<action name="showBookShelf" class="com.ssh.shop.action.UserInfoAction"
+			method="showBookShelf">
+			<result name="success">/fbookshelf.jsp</result>
+		</action>
+		<!-- 添加评论 -->
+		<action name="addComment" class="commentAction" method="addComment">
+			<result name="success" type="redirectAction">findBookDetailAction</result>
+			<result name="fail">/404.jsp</result>
+		</action>
+		<!-- 添加喜欢 -->
+		<action name="addLike" class="likeAction" method="addLike">
+			<result name="success" type="redirectAction">findBookDetailAction</result>
+			<result name="fail">/404.jsp</result>
+		</action>
+
+		<!-- 柳月改 -->
+		<!-- 图书预览 -->
+		<action name="preview" class="bookAction" method="preview">
+			<result name="success">/fpreview.jsp</result>
+			<result name="fail">/fpreview.jsp</result>
+		</action>
+		<!-- 图书下载 -->
+		<action name="downloadBook" class="bookAction" method="download">
+			<result type="stream">
+				<param name="contentType">application/octet-stream</param>
+				<param name="inputName">inputStream</param>
+				<param name="contentDisposition">attachment;filename="${fileName}"</param>
+				<param name="bufferSize">4096</param>
+			</result>
+			<result name="login">/login.jsp</result>
+		</action>
+
+		<!-- 显示购物车 -->
+		<action name="showShoppingCart" class="shoppingCartAction"
+			method="search">
+			<result name="success">/fshoppingCart.jsp</result>
+		</action>
+		<!-- 加入购物车 -->
+		<action name="addShoppingCart" class="shoppingCartAction"
+			method="add">
+			<result name="success" type="redirectAction">showShoppingCart</result>
+			<result name="login">/login.jsp</result>
+		</action>
+		<!-- 删除图书 -->
+		<action name="deleteBook" class="shoppingCartAction" method="delete">
+			<result name="success" type="redirectAction">showShoppingCart</result>
+		</action>
+		<!-- 批量删除图书 -->
+		<action name="batchDeleteBook" class="shoppingCartAction"
+			method="batchDelete">
+			<result name="success" type="redirectAction">showShoppingCart</result>
+		</action>
+		<!-- 立即购买 -->
+		<action name="buyNow" class="shoppingAction" method="buyNow">
+			<result name="success">/fbuyNow.jsp</result>
+		</action>
+		<action name="payForBuyNow" class="shoppingAction" method="payForBuyNow">
+			<result name="success">/fpaySuccess.jsp</result>
+			<result name="error">/fpayFalse.jsp</result>
+			<result name="login">/login.jsp</result>
+		</action>
+		<!-- 购买很多图书 -->
+		<action name="payManyBooks" class="shoppingAction" method="payManyBooks">
+			<result name="success">/fpaySuccess.jsp</result>
+			<result name="error">/fpayFalse.jsp</result>
+			<result name="login">/login.jsp</result>
+		</action>
+
+	</package>
+</struts>

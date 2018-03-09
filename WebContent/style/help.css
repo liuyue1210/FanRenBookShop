@@ -1,0 +1,43 @@
+@charset "utf-8";
+* {
+	margin:0;
+	padding:0;
+}
+body {
+	background:url(../image/login.jpg) center center;
+}
+.box {
+	padding:20px 30px;
+	font-size:14px;
+}
+.box a {
+	text-decoration:none;
+	color:#CC9;
+	font-size:16px;
+}
+.box a:hover {
+	text-decoration: underline;
+	color:red;
+}
+.box h1 {
+	font-size:18px;
+	border-bottom:2px solid #000;
+	text-indent:32px;
+	margin:10px 0;
+}
+.box .item {
+	margin:35px 0;
+}
+.box .item h2 {
+	font-size:16px;
+}
+.box .item p {
+	line-height:28px;
+}
+.box .item .operate .opItem {
+	font-weight:bold;
+}
+.box .item .introc {
+	text-indent:28px;
+}
+

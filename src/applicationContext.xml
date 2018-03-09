@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<!-- 数据库连接信息请自行修改密码 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/bookshop?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="root" />
+		<property name="password" value="123456" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQL5Dialect
+				</prop>
+				<!--<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>-->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/ssh/shop/po/Book.hbm.xml</value>
+				<value>com/ssh/shop/po/BookVariety.hbm.xml</value>
+				<value>com/ssh/shop/po/Boss.hbm.xml</value>
+				<value>com/ssh/shop/po/CommentRecord.hbm.xml</value>
+				<value>com/ssh/shop/po/Notification.hbm.xml</value>
+				<value>com/ssh/shop/po/Order.hbm.xml</value>
+				<value>com/ssh/shop/po/OrderDetail.hbm.xml</value>
+				<value>com/ssh/shop/po/Shoppingcart.hbm.xml</value>
+				<value>com/ssh/shop/po/ShoppingCartDetail.hbm.xml</value>
+				<value>com/ssh/shop/po/User.hbm.xml</value>
+				<value>com/ssh/shop/po/LikeRecord.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 配置DAO类 -->
+	<bean id="userDAO" class="com.ssh.shop.dao.CustomerDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="mainBookDao" class="com.ssh.shop.dao.MainBookDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- lkt配置Service类 -->
+	<bean id="userService" class="com.ssh.shop.service.UserService">
+		<property name="customerDAO" ref="userDAO" />
+	</bean>
+	<bean id="showMainService" class="com.ssh.shop.service.ShowMainService">
+		<property name="mainBookDao" ref="mainBookDao" />
+	</bean>
+	<bean id="searchBookService" class="com.ssh.shop.service.SearchBookService">
+		<property name="mainBookDao" ref="mainBookDao" />
+	</bean>
+
+	<!-- zjy修改用户信息 -->
+	<bean id="userupdate" class="com.ssh.shop.action.UserInfoAction"
+		scope="prototype">
+		<property name="userService" ref="userService" />
+	</bean>
+
+	<!-- zjy评论 -->
+	<bean id="commentAction" class="com.ssh.shop.action.CommentAction"
+		scope="prototype">
+		<property name="commentService" ref="commentService" />
+	</bean>
+	<bean id="commentService" class="com.ssh.shop.service.CommentService">
+		<property name="commentDAO" ref="commentDAO" />
+	</bean>
+	<bean id="commentDAO" class="com.ssh.shop.dao.CommentDAO">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- zjy点赞 -->
+	<bean id="likeAction" class="com.ssh.shop.action.LikeAction"
+		scope="prototype">
+		<property name="likeService" ref="likeService" />
+	</bean>
+	<bean id="likeService" class="com.ssh.shop.service.LikeService">
+		<property name="likeDAO" ref="likeDAO" />
+	</bean>
+	<bean id="likeDAO" class="com.ssh.shop.dao.LikeDAO">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+	<!-- lkt配置Action类 -->
+	<bean id="userAction" class="com.ssh.shop.action.UserAction"
+		scope="prototype">
+		<property name="userService" ref="userService" />
+	</bean>
+	<bean id="showMainAction" class="com.ssh.shop.action.ShowMainAction"
+		scope="prototype">
+		<property name="showMainService" ref="showMainService" />
+	</bean>
+	<bean id="searchBookAction" class="com.ssh.shop.action.SearchBookAction"
+		scope="prototype">
+		<property name="searchBookService" ref="searchBookService" />
+	</bean>
+	<bean id="searchVoBAction" class="com.ssh.shop.action.SearchVoBAction"
+		scope="prototype">
+		<property name="searchBookService" ref="searchBookService" />
+	</bean>
+
+	<!-- cl预览和下载 -->
+	<bean id="bookDAO" class="com.ssh.shop.dao.BookDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="bookService" class="com.ssh.shop.service.BookService">
+		<property name="bookDAO" ref="bookDAO" />
+	</bean>
+	<bean id="bookAction" class="com.ssh.shop.action.BookAction"
+		scope="prototype">
+		<property name="bookService" ref="bookService" />
+	</bean>
+	<!-- cl购物车 -->
+	<bean id="shoppingCartDAO" class="com.ssh.shop.dao.ShoppingCartDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- cl删除购物车 -->
+	<bean id="detailDAO" class="com.ssh.shop.dao.ShoppingCartDetailDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- cl添加购物车 -->
+	<bean id="shoppingCartService" class="com.ssh.shop.service.ShoppingCartService">
+		<property name="bookDAO" ref="bookDAO" />
+		<property name="userDAO" ref="userDAO" />
+		<property name="detailDAO" ref="detailDAO" />
+		<property name="shoppingCartDAO" ref="shoppingCartDAO" />
+	</bean>
+	<bean id="shoppingCartAction" class="com.ssh.shop.action.ShoppingCartAction"
+		scope="prototype">
+		<property name="shoppingCartService" ref="shoppingCartService" />
+	</bean>
+	<!-- cl查询购物车 -->
+
+	<!-- cl购买 -->
+	<!-- cl立即购买 -->
+	<bean id="orderDAO" class="com.ssh.shop.dao.OrderDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="orderDetailDAO" class="com.ssh.shop.dao.OrderDetailDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="shoppingService" class="com.ssh.shop.service.ShoppingService">
+		<property name="bookDAO" ref="bookDAO" />
+		<property name="orderDAO" ref="orderDAO" />
+		<property name="orderDetailDAO" ref="orderDetailDAO" />
+		<property name="userDAO" ref="userDAO" />
+		<property name="detailDAO" ref="detailDAO" />
+	</bean>
+	<bean id="shoppingAction" class="com.ssh.shop.action.ShoppingAction"
+		scope="prototype">
+		<property name="shoppingService" ref="shoppingService" />
+	</bean>
+
+
+
+</beans>
